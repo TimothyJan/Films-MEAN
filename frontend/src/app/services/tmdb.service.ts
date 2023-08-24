@@ -29,7 +29,7 @@ export class TmdbService {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        // Authorization: authorizationHeader
+        Authorization: typeof authorizationHeader
       }
     } | undefined;
 
