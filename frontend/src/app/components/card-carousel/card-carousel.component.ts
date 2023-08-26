@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Product } from '../models/product';
 import { TmdbService } from 'src/app/services/tmdb.service';
 
 @Component({
@@ -7,13 +8,18 @@ import { TmdbService } from 'src/app/services/tmdb.service';
   styleUrls: ['./card-carousel.component.scss']
 })
 export class CardCarouselComponent implements OnInit {
-  results: String[] = [];
+  results: String[] | undefined;
+  movies: Product[];
 
-  responsiveOptions: any[];
+  responsiveOptions: any[] | undefined;
 
   constructor(private tmdbService: TmdbService) {}
 
   ngOnInit() {
+    this.tmdbService.getProductsSmall().then((movies) => {
+      this.movies = movies;
+  });
+
     this.getNowPlaying();
 
     this.responsiveOptions = [
@@ -32,12 +38,14 @@ export class CardCarouselComponent implements OnInit {
           numVisible: 1,
           numScroll: 1
       }
-  ];
+    ];
   }
 
   async getNowPlaying() {
     this.results = await this.tmdbService.getNowPlaying();
     console.log(this.results);
   }
+
+
 
 }
